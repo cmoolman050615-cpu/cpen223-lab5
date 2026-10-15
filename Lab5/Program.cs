@@ -94,32 +94,19 @@ catch (ArgumentException)
 public static class GraphLibrary
 {
     static bool IsConnected(
-        IReadOnlyDictionary<string, HashSet<string>> graph,
-        string start)
-    {
-        if (graph.Count == 0)
-            return true;
+    IReadOnlyDictionary<string, HashSet<string>> graph,
+    string start)
+{
+    if (graph.Count == 0)
+        return true;
 
-        if (!graph.ContainsKey(start))
-            throw new ArgumentException("start not in graph");
+    if (!graph.ContainsKey(start))
+        throw new ArgumentException("start not in graph");
 
-        HashSet<string> visited = new();
-        Stack<string> work = new();
-        work.Push(start);
+    HashSet<string> visited = ReachableFrom(graph, start);
 
-        while (work.Count > 0)
-        {
-            string v = work.Pop();
-
-            if (!visited.Add(v))
-                continue;
-
-            foreach (string n in graph[v])
-                work.Push(n);
-        }
-
-        return visited.Count == graph.Count;
-    }
+    return visited.Count == graph.Count;
+}
 
 
     public static HashSet<string> ReachableFrom(
